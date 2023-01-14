@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>修改訂單</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+          <span class="navbar-brand mb-0 h1">乳品小棧</span>
+        </div>
+      </nav>
+      <form action="/update-order" method="post">
+        <table class="table table-striped">
+          <tr>
+            <td>訂單編號</td>
+            <td><input type="text" class="form-control" name="id" /></td>
+          </tr>
+          <tr>
+            <td>客戶ID</td>
+            <td>
+              <input type="text" class="form-control" name="customer_id" />
+            </td>
+          </tr>
+
+          <tr>
+            <td>訂貨日期</td>
+            <td>
+              <input type="text" class="form-control" name="order_date" />
+            </td>
+          </tr>
+          <tr>
+            <td>預計遞交日</td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                name="expected_delivery_date"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>實際遞交日</td>
+            <td>
+              <input
+                type="text"
+                class="form-control"
+                name="actual_delivery_date"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>訂貨名</td>
+            <td><input type="text" class="form-control" name="item_name" /></td>
+          </tr>
+          <tr>
+            <td>單位</td>
+            <td><input type="text" class="form-control" name="unit" /></td>
+          </tr>
+          <tr>
+            <td>數量</td>
+            <td><input type="text" class="form-control" name="quantity" /></td>
+          </tr>
+          <tr>
+            <td>單價</td>
+            <td>
+              <input type="text" class="form-control" name="unit_price" />
+            </td>
+          </tr>
+          <tr>
+            <td>供應商名</td>
+            <td>
+              <input type="text" class="form-control" name="supplier_name" />
+            </td>
+          </tr>
+          <tr>
+            <td>供應商ID</td>
+            <td>
+              <input type="text" class="form-control" name="supplier_id" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <input class="form-control" type="submit" value="Submit" />
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
+  </body>
+</html>
