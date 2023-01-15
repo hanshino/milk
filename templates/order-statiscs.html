@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>訂單數據</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar bg-dark bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img
+              src="https://d29fhpw069ctt2.cloudfront.net/icon/image/49035/preview.svg"
+              alt="Logo"
+              width="30"
+              height="24"
+              class="d-inline-block align-text-top"
+            />
+            乳品小棧
+          </a>
+        </div>
+      </nav>
+      <form action="/order-statiscs" method="post">
+        <table class="table">
+          <tr>
+            <td>客戶ID</td>
+            <td>
+              <input type="text" class="form-control" name="customer_id" />
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td><input class="form-control" type="submit" value="Submit" /></td>
+          </tr>
+        </table>
+      </form>
+      {% if orders %}
+      <h3>查詢結果</h3>
+      <table class="table table-striped">
+        <tr>
+          <th>訂單ID</th>
+          <th>客戶ID</th>
+          <th>訂單日期</th>
+          <th>預計交貨日期</th>
+          <th>實際交貨日期</th>
+          <th>商品名稱</th>
+          <th>單位</th>
+          <th>數量</th>
+          <th>單價</th>
+          <th>總價</th>
+          <th>供應商名稱</th>
+          <th>供應商ID</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.customer_id }}</td>
+          <td>{{ order.order_date }}</td>
+          <td>{{ order.expected_delivery_date }}</td>
+          <td>{{ order.actual_delivery_date }}</td>
+          <td>{{ order.item_name }}</td>
+          <td>{{ order.unit }}</td>
+          <td>{{ order.quantity }}</td>
+          <td>{{ order.unit_price }}</td>
+          <td>{{ order.total_price }}</td>
+          <td>{{ order.supplier_name }}</td>
+          <td>{{ order.supplier_id }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <div class="row">
+        <div class="col">總金額:</div>
+        <div class="col">{{ total_amount }}</div>
+      </div>
+      <div class="row">
+        <div class="col">總訂單量:</div>
+        <div class="col">{{ total_count }}</div>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

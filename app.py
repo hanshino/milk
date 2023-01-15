@@ -7,6 +7,11 @@ app = Flask(__name__)
 
 @app.route("/", methods=['GET'])
 def index():
+    return render_template('login.html')
+
+
+@app.route("/home", methods=['GET'])
+def home():
     # read index.html file
     return render_template('index.html')
 
@@ -428,6 +433,46 @@ def do_get_customer_statiscs():
 
     # show the result in the html page
     return render_template('customer-statiscs.html', data=data)
+
+
+@app.route("/order-statiscs", methods=['GET'])
+def order_statiscs_view():
+    return render_template('order-statiscs.html')
+
+
+@app.route("/order-statiscs", methods=['POST'])
+def do_order_statiscs():
+    sql = "SELECT * FROM Orders WHERE customer_id = "
+    sql += f'"{request.form["customer_id"]}"'
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+
+    orders = []
+    total_amount = 0
+    total_count = 0
+    for row in result:
+        orders.append({
+            "id": row[0],
+            "customer_id": row[1],
+            "order_date": row[2],
+            "expected_delivery_date": row[3],
+            "actual_delivery_date": row[4],
+            "item_name": row[5],
+            "unit": row[6],
+            "quantity": row[7],
+            "unit_price": row[8],
+            "total_price": row[9],
+            "supplier_name": row[10],
+            "supplier_id": row[11],
+        })
+
+        total_amount += int(row[9])
+        total_count += 1
+
+    # show the result in the html page
+    return render_template('order-statiscs.html', orders=orders, total_amount=total_amount, total_count=total_count)
 
 
 if __name__ == "__main__":
