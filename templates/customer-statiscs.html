@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>用戶數據</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar bg-dark bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">
+            <img
+              src="https://d29fhpw069ctt2.cloudfront.net/icon/image/49035/preview.svg"
+              alt="Logo"
+              width="30"
+              height="24"
+              class="d-inline-block align-text-top"
+            />
+            乳品小棧
+          </a>
+        </div>
+      </nav>
+      <div class="row mt-1">
+        <div class="col">客戶人數</div>
+        <div class="col">{{data.customer_count}}</div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">客戶平均年齡</div>
+        <div class="col">{{data.customer_avg_age}}</div>
+      </div>
+      <div class="row mt-1">
+        <div class="col">停用客戶人數</div>
+        <div class="col">{{data.disabled_customer_count}}</div>
+        <div class="col">啟用客戶人數</div>
+        <div class="col">{{data.enabled_customer_count}}</div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <p class="h3">各月份訂貨金額</p>
+        </div>
+        <div class="col-12">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">1月</th>
+                <th scope="col">2月</th>
+                <th scope="col">3月</th>
+                <th scope="col">4月</th>
+                <th scope="col">5月</th>
+                <th scope="col">6月</th>
+                <th scope="col">7月</th>
+                <th scope="col">8月</th>
+                <th scope="col">9月</th>
+                <th scope="col">10月</th>
+                <th scope="col">11月</th>
+                <th scope="col">12月</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{data.order_count_by_month[0]}}</td>
+                <td>{{data.order_count_by_month[1]}}</td>
+                <td>{{data.order_count_by_month[2]}}</td>
+                <td>{{data.order_count_by_month[3]}}</td>
+                <td>{{data.order_count_by_month[4]}}</td>
+                <td>{{data.order_count_by_month[5]}}</td>
+                <td>{{data.order_count_by_month[6]}}</td>
+                <td>{{data.order_count_by_month[7]}}</td>
+                <td>{{data.order_count_by_month[8]}}</td>
+                <td>{{data.order_count_by_month[9]}}</td>
+                <td>{{data.order_count_by_month[10]}}</td>
+                <td>{{data.order_count_by_month[11]}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <p class="h3">各周訂貨金額</p>
+        </div>
+
+        <div class="col-12">
+          <table class="table">
+            <thead>
+              <tr>
+                {% for week in data.order_count_by_week %}
+                <th scope="col">第{{loop.index}}周</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for week in data.order_count_by_week %}
+                <td>{{week}}</td>
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

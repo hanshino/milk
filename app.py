@@ -13,7 +13,6 @@ def index():
 
 @app.route("/create-user", methods=['GET'])
 def create_user_view():
-    # read index.html file
     return render_template('create-user.html')
 
 
@@ -227,6 +226,208 @@ def do_create_purchase():
     conn = mysqlite.connect()
     mysqlite.execute(sql, conn=conn)
     return {"status": "success"}
+
+
+@app.route("/search-purchase", methods=['GET'])
+def get_purchase_view():
+    return render_template('search-purchase.html')
+
+
+@app.route("/search-purchase", methods=['POST'])
+def do_get_purchase():
+    sql = "SELECT * FROM Purchases WHERE supplier_id = "
+    sql += f'"{request.form["supplier_id"]}"'
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+
+    data = []
+    for row in result:
+        data.append({
+            "purchase_id": row[0],
+            "supplier_name": row[1],
+            "supplier_id": row[2],
+            "supplier_contact": row[3],
+            "item_name": row[4],
+            "quantity": row[5],
+            "unit": row[6],
+            "unit_price": row[7],
+            "total_price": row[8],
+            "storage_location": row[9],
+            "specification": row[10],
+            "purchase_date": row[11],
+        })
+
+    # show the result in the html page
+    return render_template('search-purchase.html', data=data)
+
+
+@app.route("/create-receivable", methods=['GET'])
+def create_receivable_view():
+    return render_template('create-receivable.html')
+
+
+@app.route("/create-receivable", methods=['POST'])
+def do_create_receivable():
+    sql = "INSERT INTO Receivables"
+    sql += "(`name`, `id`, `amount`, `due_date`, `pending_amount`, `status` )"
+    sql += " VALUES ("
+    sql += f'"{request.form["name"]}",'
+    sql += f'"{request.form["id"]}",'
+    sql += f'"{request.form["amount"]}",'
+    sql += f'"{request.form["due_date"]}",'
+    sql += f'"{request.form["pending_amount"]}",'
+    sql += f'"{"1"}"'
+    sql += ")"
+
+    conn = mysqlite.connect()
+    mysqlite.execute(sql, conn=conn)
+    return {"status": "success"}
+
+
+@app.route("/delete-receivable", methods=['GET'])
+def delete_receivable_view():
+    return render_template('delete-receivable.html')
+
+
+@app.route("/delete-receivable", methods=['POST'])
+def do_delete_receivable():
+    # update set status = 0
+    sql = "UPDATE Receivables SET status = 0 WHERE id = "
+    sql += f'"{request.form["id"]}"'
+    conn = mysqlite.connect()
+    mysqlite.execute(sql, conn=conn)
+
+    return {"status": "success"}
+
+
+@app.route("/update-receivable", methods=['GET'])
+def update_receivable_view():
+    return render_template('update-receivable.html')
+
+
+@app.route("/update-receivable", methods=['POST'])
+def do_update_receivable():
+    sql = "UPDATE Receivables SET "
+    sql += f'name = "{request.form["name"]}",'
+    sql += f'amount = "{request.form["amount"]}",'
+    sql += f'due_date = "{request.form["due_date"]}",'
+    sql += f'pending_amount = "{request.form["pending_amount"]}",'
+    sql += f'status = "{request.form["status"]}"'
+    sql += f' WHERE id = "{request.form["id"]}" and receivable_id = {request.form["receivable_id"]}'
+
+    conn = mysqlite.connect()
+    mysqlite.execute(sql, conn=conn)
+
+    return {"status": "success"}
+
+
+@app.route("/search-receivable", methods=['GET'])
+def get_receivable_view():
+    return render_template('search-receivable.html')
+
+
+@app.route("/search-receivable", methods=['POST'])
+def do_get_receivable():
+    sql = "SELECT * FROM Receivables WHERE id = "
+    sql += f'"{request.form["id"]}"'
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchone()
+
+    data = {
+        "receivable_id": result[0],
+        "name": result[1],
+        "id": result[2],
+        "amount": result[3],
+        "due_date": result[4],
+        "pending_amount": result[5],
+        "status": result[6]
+    }
+
+    # show the result in the html page
+    return render_template('search-receivable.html', data=data)
+
+
+@app.route("/customer-statiscs", methods=['GET'])
+def do_get_customer_statiscs():
+    customer_count = 0
+    sql = "SELECT COUNT(*) FROM Customers"
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    customer_count = result[0]
+
+    customer_avg_age = 0
+    sql = "SELECT AVG(age) FROM Customers"
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    customer_avg_age = result[0]
+
+    disabled_customer_count = 0
+    sql = "SELECT COUNT(*) FROM Customers WHERE status = 0"
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    disabled_customer_count = result[0]
+
+    enabled_customer_count = 0
+    sql = "SELECT COUNT(*) FROM Customers WHERE status = 1"
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchone()
+    enabled_customer_count = result[0]
+
+    sql = "SELECT * FROM Orders"
+    conn = mysqlite.connect()
+    cursor = conn.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+
+    # 整理每個月的訂單數量
+    # 先依照月份分類
+    # 給定預設值
+    order_count_by_month = [0] * 12
+    for row in result:
+        order_date = row[2]
+        order_month = order_date.split('/')[1]
+        order_month = int(order_month)
+        if order_month in order_count_by_month:
+            order_count_by_month[order_month] += int(row[9])
+        else:
+            order_count_by_month[order_month] = int(row[9])
+
+    # 整理每個禮拜的訂單數量
+    # 先依照禮拜分類
+    # 給定預設值
+    order_count_by_week = [0] * 52
+    for row in result:
+        order_date = row[2]
+        order_week = order_date.split('/')[2]
+        order_week = int(order_week)
+        if order_week in order_count_by_week:
+            order_count_by_week[order_week] += int(row[9])
+        else:
+            order_count_by_week[order_week] = int(row[9])
+
+    data = {
+        "customer_count": customer_count,
+        "customer_avg_age": customer_avg_age,
+        "disabled_customer_count": disabled_customer_count,
+        "enabled_customer_count": enabled_customer_count,
+        "order_count_by_month": order_count_by_month,
+        "order_count_by_week": order_count_by_week
+    }
+
+    # show the result in the html page
+    return render_template('customer-statiscs.html', data=data)
 
 
 if __name__ == "__main__":

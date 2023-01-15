@@ -13,11 +13,37 @@
   </head>
   <body>
     <div class="container">
-      <nav class="navbar bg-body-tertiary">
+      <nav class="navbar bg-dark bg-body-tertiary">
         <div class="container-fluid">
-          <span class="navbar-brand mb-0 h1">乳品小棧</span>
+          <a class="navbar-brand" href="/">
+            <img
+              src="https://d29fhpw069ctt2.cloudfront.net/icon/image/49035/preview.svg"
+              alt="Logo"
+              width="30"
+              height="24"
+              class="d-inline-block align-text-top"
+            />
+            乳品小棧
+          </a>
         </div>
       </nav>
+      <div class="row mt-3">
+        <div class="col-12">
+          <h3>數據</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <a class="btn btn-outline-primary m-1 w-100" href="/customer-statiscs"
+            >客戶數據</a
+          >
+        </div>
+        <div class="col-6">
+          <a class="btn btn-outline-primary m-1 w-100" href="/order-statiscs"
+            >訂貨數據</a
+          >
+        </div>
+      </div>
       <div class="row mt-3">
         <div class="col-12">
           <h3>客戶功能</h3>
@@ -83,9 +109,31 @@
             >新增進貨</a
           >
         </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12">
+          <h3>帳款功能</h3>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-6">
-          <a class="btn btn-outline-primary m-1 w-100" href="/update-purchase"
-            >更新進貨</a
+          <a class="btn btn-outline-primary m-1 w-100" href="/search-receivable"
+            >查詢帳款</a
+          >
+        </div>
+        <div class="col-6">
+          <a class="btn btn-outline-primary m-1 w-100" href="/delete-receivable"
+            >刪除帳款</a
+          >
+        </div>
+        <div class="col-6">
+          <a class="btn btn-outline-primary m-1 w-100" href="/create-receivable"
+            >新增帳款</a
+          >
+        </div>
+        <div class="col-6">
+          <a class="btn btn-outline-primary m-1 w-100" href="/update-receivable"
+            >更新帳款</a
           >
         </div>
       </div>

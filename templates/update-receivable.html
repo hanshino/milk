@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>修改用戶資料</title>
+    <title>修改帳單資料</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
@@ -27,8 +27,14 @@
           </a>
         </div>
       </nav>
-      <form action="/update-user" method="post">
+      <form action="/update-receivable" method="post">
         <table class="table">
+          <tr>
+            <td>receivable_id</td>
+            <td>
+              <input type="text" class="form-control" name="receivable_id" />
+            </td>
+          </tr>
           <tr>
             <td>Name</td>
             <td><input type="text" class="form-control" name="name" /></td>
@@ -38,26 +44,32 @@
             <td><input type="text" class="form-control" name="id" /></td>
           </tr>
           <tr>
-            <td>Phone</td>
-            <td><input type="text" class="form-control" name="phone" /></td>
+            <td>amount</td>
+            <td><input type="text" class="form-control" name="amount" /></td>
           </tr>
           <tr>
-            <td>Address</td>
-            <td><input type="text" class="form-control" name="address" /></td>
+            <td>due_date</td>
+            <td><input type="text" class="form-control" name="due_date" /></td>
           </tr>
           <tr>
-            <td>Age</td>
-            <td><input type="text" class="form-control" name="age" /></td>
-          </tr>
-          <tr>
-            <td>Occupation</td>
+            <td>pending_amount</td>
             <td>
-              <input type="text" class="form-control" name="occupation" />
+              <input type="text" class="form-control" name="pending_amount" />
             </td>
           </tr>
           <tr>
-            <td></td>
-            <td><input class="form-control" type="submit" value="Submit" /></td>
+            <td>Status</td>
+            <td>
+              <select name="status">
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <input class="form-control" type="submit" value="Submit" />
+            </td>
           </tr>
         </table>
       </form>
